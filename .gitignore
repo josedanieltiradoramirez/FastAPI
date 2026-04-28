@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+fastapienv/
+.venv/
+venv/
+env/
+
+# Env files (secrets)
+.env
+
+# Pytest
+.pytest_cache/
+
+# SQLite / local dbs
+*.db
+
+# VS Code
+.vscode/

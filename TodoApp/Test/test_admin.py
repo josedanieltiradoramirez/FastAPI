@@ -1,0 +1,19 @@
+from TodoApp.Test.utils import *
+from TodoApp.routers.admin import get_db, get_current_user
+from fastapi import status
+from TodoApp.models import Todos
+
+app.dependency_overrides[get_db] = override_get_db
+app.dependency_overrides[get_current_user] = override_get_current_user
+
+def test_admin_read_all_authenticated(test_todo):
+    response = client.get("/admin/todo")
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == [{"title": "Learn to code!", "description": "Start with Python and FastAPI", "priority": 1, "complete": False, "id": 1, "owner_id": 1}]
+
+def test_admin_delete_todo(test_todo):
+    response = client.delete("/admin/todo/1")
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    db = TestingSessionLocal()
+    model = db.query(Todos).filter(Todos.id == 1).first()
+    assert model is None
